@@ -6,7 +6,7 @@ terraform init
 terraform apply
 
 # connect with kubectl
-aws eks --region us-east-1 update-kubeconfig --name example
+aws eks --region us-east-1 update-kubeconfig --name myapp-eks-cluster
 
 # check log in to cluster
 kubectl config current-context
