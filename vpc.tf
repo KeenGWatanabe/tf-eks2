@@ -12,7 +12,7 @@ terraform {
 data "aws_availability_zones" "available" {}
 
 locals {
-  prefix = "myapp" # Change to your preferred prefix
+  prefix = "grp-4" # Change to your preferred prefix
  }
 
 resource "aws_vpc" "main" {
