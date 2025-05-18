@@ -4,7 +4,7 @@ module "eks" {
 
  cluster_name    = "grp-4-eks-cluster"
  cluster_version = "1.31"
-
+ enable_irsa = true
  # Optional
  cluster_endpoint_public_access = true
 
@@ -29,13 +29,24 @@ module "eks" {
  }
 }
 
-# OIDC extraction for K8s
-resource "aws_iam_openid_connect_provider" "eks_oidc" {
-  url             = aws_eks_cluster.eks_cluster.identity[0].oidc[0].issuer
-  client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = [data.tls_certificate.eks_oidc.certificates[0].sha1_fingerprint]
-}
 
-data "tls_certificate" "eks_oidc" {
-  url = aws_eks_cluster.eks_cluster.identity[0].oidc[0].issuer
+
+
+# Then reference the OIDC provider like this:
+data "aws_iam_policy_document" "irsa_assume_role" {
+  statement {
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+    effect  = "Allow"
+
+    principals {
+      type        = "Federated"
+      identifiers = [module.eks.oidc_provider_arn]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "${module.eks.oidc_provider}:sub"
+      values   = ["system:serviceaccount:default:app-service-account"]
+    }
+  }
 }
