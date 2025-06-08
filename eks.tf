@@ -3,7 +3,7 @@ module "eks" {
  version = "~> 20.31"
 
  cluster_name    = "${var.name_prefix}-eks-cluster"
- cluster_version = "1.31"
+ cluster_version = "1.32"
  enable_irsa = true
  # Optional
  cluster_endpoint_public_access = true
@@ -12,11 +12,13 @@ module "eks" {
  enable_cluster_creator_admin_permissions = true
 
  eks_managed_node_groups = {
-   example = {
-     instance_types = ["t3.medium"]
+   rger = {
      min_size       = 1
      max_size       = 3
      desired_size   = 2
+     
+     instance_types = ["t3.medium"]
+     capacity_type  = "ON_DEMAND"
    }
  }
 
