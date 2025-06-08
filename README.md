@@ -8,14 +8,19 @@ https://github.com/KeenGWatanabe/tf-backend
 terraform init
 terraform apply
 
+![eks-cluster on aws](/images/EKSclusterOnAws.png)
+
 # connect with kubectl
-aws eks --region us-east-1 update-kubeconfig --name myapp-eks-cluster
+aws eks --region us-east-1 update-kubeconfig --name rger-eks-cluster
+![eks-kubectl-update](/images/eks-kubectl-update.png)
 
 # check log in to cluster
 kubectl config current-context
+![eks-kubectl-current](/images/eks-kubectl-current.png)
 
 # view running nodes
 kubectl get nodes
+
 # node details
 kubectl get nodes -o custom-columns=Name:.metadata.name,nCPU:.status.capacity.cpu,Memory:.status.capacity.memory
 
@@ -49,4 +54,5 @@ kubectl run --rm -it test-pod --image=amazon/aws-cli --serviceaccount=app-servic
 # Inside the Pod, verify credentials
 aws sts get-caller-identity
 
-` oidc_provider_arn = "arn:aws:iam::255945442255:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/296241930FEC0B2E6734A348B40FE67F" `
+# runDate 20250608
+`oidc_provider_arn = "arn:aws:iam::255945442255:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/1557EBAF68CB5A70D710A144E9DF10AD"`

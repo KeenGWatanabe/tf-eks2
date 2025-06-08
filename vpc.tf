@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "grp-4.tfstate-backend.com"  # Must match the bucket name above
+    bucket         = "rger.tfstate-backend.com"  # Must match the bucket name above
     key            = "eks/terraform.tfstate"        # State file path
     region         = "us-east-1"                # Same as provider
-    dynamodb_table = "terraform-state-locks"    # If using DynamoDB
+    dynamodb_table = "rger-terraform-state-locks"    # If using DynamoDB
     # use_lockfile   = true                       # replaces dynamodb_table                
     encrypt        = true                       # Use encryption
   }
@@ -11,15 +11,12 @@ terraform {
 
 data "aws_availability_zones" "available" {}
 
-locals {
-  prefix = "grp-4" # Change to your preferred prefix
- }
 
 resource "aws_vpc" "main" {
  cidr_block = "10.0.0.0/16"
 
  tags = {
-   Name = "${local.prefix}-vpc-eks"
+   Name = "${var.name_prefix}-vpc-eks"
  }
 }
 
@@ -39,7 +36,7 @@ resource "aws_internet_gateway" "main" {
  vpc_id = aws_vpc.main.id
 
  tags = {
-   Name = "${local.prefix}-igw"
+   Name = "${var.name_prefix}-igw"
  }
 }
 
@@ -52,7 +49,7 @@ resource "aws_route_table" "public" {
  }
 
  tags = {
-   Name = "${local.prefix}-route-table"
+   Name = "${var.name_prefix}-route-table"
  }
 }
 
