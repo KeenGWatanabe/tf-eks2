@@ -54,5 +54,5 @@ kubectl run --rm -it test-pod --image=amazon/aws-cli --serviceaccount=app-servic
 # Inside the Pod, verify credentials
 aws sts get-caller-identity
 
-# runDate 20250608
+# eks-oidc runDate 20250608
 `oidc_provider_arn = "arn:aws:iam::255945442255:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/1557EBAF68CB5A70D710A144E9DF10AD"`
