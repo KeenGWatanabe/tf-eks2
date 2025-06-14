@@ -1,10 +1,10 @@
 terraform {
   backend "s3" {
-    bucket         = "rger.tfstate-backend.com"  # Must match the bucket name above
+    bucket         = "taskmgr-eks.tfstate-backend.com"  # Must match the bucket name above
     key            = "eks/terraform.tfstate"        # State file path
     region         = "us-east-1"                # Same as provider
-    dynamodb_table = "rger-terraform-state-locks"    # If using DynamoDB
-    # use_lockfile   = true                       # replaces dynamodb_table                
+    dynamodb_table = "taskmgr-eks-terraform-state-locks"    # If using DynamoDB
+    # use_lockfile   = true                       # replaces dynamodb_table
     encrypt        = true                       # Use encryption
   }
 }
