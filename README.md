@@ -56,5 +56,13 @@ kubectl run --rm -it test-pod --image=amazon/aws-cli --serviceaccount=app-servic
 # Inside the Pod, verify credentials
 aws sts get-caller-identity
 
-# eks-oidc runDate 20250614
-oidc_provider_arn = "arn:aws:iam::255945442255:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/877C239701D218828608065B0431FC8D"
+# eks-oidc runDate 20250615
+
+Outputs:
+
+aws_load_balancer_controller_role_arn = "arn:aws:iam::255945442255:role/AmazonEKSLoadBalancerControllerRole"
+cluster_endpoint = "https://C03526B250EC2783510677BD2D091428.gr7.us-east-1.eks.amazonaws.com"
+cluster_name = "taskmgr-eks-cluster"
+oidc_provider = "oidc.eks.us-east-1.amazonaws.com/id/C03526B250EC2783510677BD2D091428"
+oidc_provider_arn = "arn:aws:iam::255945442255:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/C03526B250EC2783510677BD2D091428"   
+vpc_id = "vpc-01a79ae8c8349b3c9"

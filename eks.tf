@@ -12,7 +12,7 @@ module "eks" {
  enable_cluster_creator_admin_permissions = true
 
  eks_managed_node_groups = {
-   rger = {
+   taskmgr = {
      min_size       = 1
      max_size       = 3
      desired_size   = 2
