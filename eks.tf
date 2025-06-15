@@ -6,17 +6,6 @@ module "eks" {
   cluster_version = "1.29"
   enable_irsa     = true  # ← This enables automatic IRSA setup
 
-  # cluster_addons = {
-  #   aws-load-balancer-controller = {
-  #     most_recent              = true  # Recommended
-  #     resolve_conflicts        = "OVERWRITE"
-  #     service_account_name     = "aws-load-balancer-controller"  # Explicit name
-  #     configuration_values = jsonencode({
-  #       enableShield           = false  # Customize controller settings
-  #       enableWaf             = false
-  #     })
-  #   }
-  # }
 
   eks_managed_node_groups = {
     taskmgr = {
