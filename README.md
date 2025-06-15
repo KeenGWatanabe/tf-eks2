@@ -2,7 +2,7 @@ code source
 https://spacelift.io/blog/terraform-eks
 
 # branch: alb
-extra: iam.tf for load_balancer_controller role and policies
+build own vpc work with alb
 # backend s3
 https://github.com/KeenGWatanabe/tf-backend
 
