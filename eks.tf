@@ -11,10 +11,10 @@ module "eks" {
       resolve_conflicts        = "OVERWRITE"
       service_account_name     = "aws-load-balancer-controller"  # Explicit name
       most_recent              = true  # Recommended
-      configuration_values = {
+      configuration_values = jsonencode({
         enableShield           = false  # Customize controller settings
         enableWaf             = false
-      }
+      })
     }
   }
 
