@@ -1,3 +1,14 @@
+terraform {
+  backend "s3" {
+    bucket         = "taskmgr.tfstate-backend.com"  # Must match the bucket name above
+    key            = "eks/terraform.tfstate"        # State file path
+    region         = "us-east-1"                # Same as provider
+    dynamodb_table = "taskmgr-terraform-state-locks"    # If using DynamoDB
+    # use_lockfile   = true                       # replaces dynamodb_table
+    encrypt        = true                       # Use encryption
+  }
+}
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.31"
@@ -29,11 +40,11 @@ module "eks" {
   }
 
   # VPC configuration
-  vpc_id     = aws_vpc.main.id
+  vpc_id     = var.vpc_id
   # subnet_ids = aws_subnet.public_subnet[*].id  # ← Use public subnets for ALB
   #######new addtions############### ln 35-51
-  subnet_ids = concat(aws_subnet.public_subnet[*].id, aws_subnet.private_subnet[*].id)  # ← ALB needs both
-  
+  subnet_ids = concat(var.public_subnet_ids, var.private_subnet_ids) # ← ALB needs both
+
   cluster_endpoint_public_access  = true
   cluster_endpoint_private_access = true
   
