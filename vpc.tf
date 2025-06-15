@@ -59,7 +59,76 @@ resource "aws_route_table_association" "a" {
  subnet_id      = aws_subnet.public_subnet.*.id[count.index]
  route_table_id = aws_route_table.public.id
 }
+#######new addtions###############
+# 1. Create private subnets
+resource "aws_subnet" "private_subnet" {
+  count             = 2
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = cidrsubnet(aws_vpc.main.cidr_block, 8, count.index + 10) # e.g., 10.0.10.0/24, 10.0.11.0/24
+  availability_zone = data.aws_availability_zones.available.names[count.index]
 
+  tags = {
+    Name = "private-subnet-${count.index}"
+    "kubernetes.io/role/internal-elb" = "1" # Required for internal ALBs
+  }
+}
+
+# 2. Create NAT Gateway in public subnet
+resource "aws_eip" "nat" {
+  count = 2
+  domain = "vpc"
+}
+
+resource "aws_nat_gateway" "nat" {
+  count         = 2
+  allocation_id = aws_eip.nat[count.index].id
+  subnet_id     = aws_subnet.public_subnet[count.index].id
+
+  tags = {
+    Name = "${var.name_prefix}-nat-${count.index}"
+  }
+}
+
+# 3. Private route table with NAT
+resource "aws_route_table" "private" {
+  count  = 2
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat[count.index].id
+  }
+
+  tags = {
+    Name = "${var.name_prefix}-private-rt-${count.index}"
+  }
+}
+
+# 4. Associate private subnets
+resource "aws_route_table_association" "private" {
+  count          = 2
+  subnet_id      = aws_subnet.private_subnet[count.index].id
+  route_table_id = aws_route_table.private[count.index].id
+}
+
+# 5. EKS-specific security group
+resource "aws_security_group" "eks_cluster" {
+  name        = "${var.name_prefix}-eks-cluster-sg"
+  description = "Cluster communication with worker nodes"
+  vpc_id      = aws_vpc.main.id
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.name_prefix}-eks-cluster-sg"
+  }
+}
+#######new addtions###############
 ######################VPN/Bastion Host######################
 #  Public Access (Recommended for Development
 module "bastion" {
