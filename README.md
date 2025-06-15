@@ -9,10 +9,20 @@ https://github.com/KeenGWatanabe/tf-backend
 What this module does
 ![alt text](image.png)
 
+# INPUTS
+vpc.tf ln3,4,6 name `bucket, folder, statefile`
+
 # terraform eks
 terraform init
+terraform apply -target=module.eks
 terraform apply
 
+# verification steps
+aws eks describe-cluster --name ${var.name_prefix}-eks-cluster
+kubectl get nodes
+kubectl get pods -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller
+
+---------------------------------------------------------------------------------------
 ![eks-cluster on aws](/images/EKSclusterOnAws.png)
 
 # connect with kubectl
@@ -60,16 +70,10 @@ kubectl run --rm -it test-pod --image=amazon/aws-cli --serviceaccount=app-servic
 aws sts get-caller-identity
 
 # eks-oidc runDate 20250615
-
 Outputs:
 
-aws_load_balancer_controller_role_arn = "arn:aws:iam::255945442255:role/AmazonEKSLoadBalancerControllerRole"
-cluster_endpoint = "https://C03526B250EC2783510677BD2D091428.gr7.us-east-1.eks.amazonaws.com"
+cluster_endpoint = "https://25C0EFC0B536D775368708A3E0E9952A.gr7.us-east-1.eks.amazonaws.com"
 cluster_name = "taskmgr-eks-cluster"
-oidc_provider = "oidc.eks.us-east-1.amazonaws.com/id/C03526B250EC2783510677BD2D091428"
-oidc_provider_arn = "arn:aws:iam::255945442255:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/C03526B250EC2783510677BD2D091428"   
+oidc_provider = "oidc.eks.us-east-1.amazonaws.com/id/25C0EFC0B536D775368708A3E0E9952A"   
+oidc_provider_arn = "arn:aws:iam::255945442255:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/25C0EFC0B536D775368708A3E0E9952A"
 vpc_id = "vpc-01a79ae8c8349b3c9"
-
-
-  vpc_id     = aws_vpc.main.id
-  subnet_ids = aws_subnet.public_subnet.*.id

@@ -3,20 +3,20 @@ module "eks" {
   version = "~> 20.31"
 
   cluster_name    = "${var.name_prefix}-eks-cluster"
-  cluster_version = "1.32"
+  cluster_version = "1.29"
   enable_irsa     = true  # ← This enables automatic IRSA setup
 
-  cluster_addons = {
-    aws-load-balancer-controller = {
-      resolve_conflicts        = "OVERWRITE"
-      service_account_name     = "aws-load-balancer-controller"  # Explicit name
-      most_recent              = true  # Recommended
-      configuration_values = jsonencode({
-        enableShield           = false  # Customize controller settings
-        enableWaf             = false
-      })
-    }
-  }
+  # cluster_addons = {
+  #   aws-load-balancer-controller = {
+  #     most_recent              = true  # Recommended
+  #     resolve_conflicts        = "OVERWRITE"
+  #     service_account_name     = "aws-load-balancer-controller"  # Explicit name
+  #     configuration_values = jsonencode({
+  #       enableShield           = false  # Customize controller settings
+  #       enableWaf             = false
+  #     })
+  #   }
+  # }
 
   eks_managed_node_groups = {
     taskmgr = {
@@ -38,3 +38,37 @@ module "eks" {
     Terraform   = "true"
   }
 }
+
+
+
+resource "helm_release" "alb_controller" {
+  name       = "aws-load-balancer-controller"
+  repository = "https://aws.github.io/eks-charts"
+  chart      = "aws-load-balancer-controller"
+  namespace  = "kube-system"
+  version    = "1.8.1" # Chart version
+
+  set {
+    name  = "clusterName"
+    value = module.eks.cluster_name
+  }
+  set {
+      name  = "serviceAccount.create"
+      value = "false"
+    }
+
+  set {
+    name  = "serviceAccount.name"
+    value = "aws-load-balancer-controller"
+  }
+
+  depends_on = [
+    module.eks,
+    module.eks.eks_managed_node_groups # Wait for nodes too
+  ]
+  
+}
+
+# Note: Ensure the AWS Load Balancer Controller version matches your EKS version
+# eks 1.29 = alb_ctrl 1.7.x
+# eks 1.32 = alb_ctrl 1.8.x
