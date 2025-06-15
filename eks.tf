@@ -51,7 +51,7 @@ resource "helm_release" "alb_controller" {
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
   namespace  = "kube-system"
-  version    = "1.8.1" # Chart version
+  version    = "1.7.1" # Chart version
 
   set {
     name  = "clusterName"
@@ -75,5 +75,5 @@ resource "helm_release" "alb_controller" {
 }
 
 # Note: Ensure the AWS Load Balancer Controller version matches your EKS version
-# eks 1.29 = alb_ctrl 1.7.x
-# eks 1.32 = alb_ctrl 1.8.x
+# eks 1.29 (ln6) = alb_ctrl 1.7.x (ln54)
+# eks 1.32 (ln6) = alb_ctrl 1.8.x (ln54)
