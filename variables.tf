@@ -1,9 +1,8 @@
 variable "name_prefix" {
   description = "Prefix for resource names"
   type        = string
-  default     = "taskmgr" # Change to your preferred prefix
-  
 }
+
 variable "MONGODB_URI" {
   description = "MongoDB Atlas connection URI"
   type        = string

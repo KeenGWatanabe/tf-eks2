@@ -1,8 +1,8 @@
 code source
 https://spacelift.io/blog/terraform-eks
 
-# branch: alb
-extra: iam.tf for load_balancer_controller role and policies
+# branch: vpc
+use external vpc via tfvars
 # backend s3
 https://github.com/KeenGWatanabe/tf-backend
 
@@ -10,7 +10,7 @@ What this module does
 ![alt text](image.png)
 
 # INPUTS
-vpc.tf ln3,4,6 name `bucket, folder, statefile`
+eks.tf ln3,4,6 name `bucket, folder, statefile`
 
 # terraform eks
 terraform init
