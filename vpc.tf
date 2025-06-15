@@ -18,6 +18,7 @@ resource "aws_vpc" "main" {
  tags = {
    Name = "${var.name_prefix}-vpc-eks"
  }
+ 
 }
 
 resource "aws_subnet" "public_subnet" {
@@ -58,3 +59,32 @@ resource "aws_route_table_association" "a" {
  subnet_id      = aws_subnet.public_subnet.*.id[count.index]
  route_table_id = aws_route_table.public.id
 }
+
+######################VPN/Bastion Host######################
+#  Public Access (Recommended for Development
+module "bastion" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "~> 4.0"
+  
+  name = "eks-bastion"
+  instance_type = "t3.micro"
+  subnet_id     = aws_subnet.public_subnet[0].id
+  vpc_security_group_ids = [aws_security_group.bastion.id]
+}
+
+resource "aws_security_group" "bastion" {
+  vpc_id = aws_vpc.main.id
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Restrict to your IP in production
+  }
+  egress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = [aws_vpc.main.cidr_block]
+  }
+}
+##############################################################################

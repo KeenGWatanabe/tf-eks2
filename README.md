@@ -18,7 +18,7 @@ terraform apply -target=module.eks
 terraform apply
 
 # verification steps
-aws eks describe-cluster --name ${var.name_prefix}-eks-cluster
+aws eks describe-cluster --name taskmgr-eks-cluster
 kubectl get nodes
 kubectl get pods -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller
 
