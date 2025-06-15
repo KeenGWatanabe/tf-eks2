@@ -6,6 +6,9 @@ extra: iam.tf for load_balancer_controller role and policies
 # backend s3
 https://github.com/KeenGWatanabe/tf-backend
 
+What this module does
+![alt text](image.png)
+
 # terraform eks
 terraform init
 terraform apply
@@ -66,3 +69,7 @@ cluster_name = "taskmgr-eks-cluster"
 oidc_provider = "oidc.eks.us-east-1.amazonaws.com/id/C03526B250EC2783510677BD2D091428"
 oidc_provider_arn = "arn:aws:iam::255945442255:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/C03526B250EC2783510677BD2D091428"   
 vpc_id = "vpc-01a79ae8c8349b3c9"
+
+
+  vpc_id     = aws_vpc.main.id
+  subnet_ids = aws_subnet.public_subnet.*.id

@@ -21,10 +21,10 @@ output "oidc_provider_arn" {
 }
 
 
-output "aws_load_balancer_controller_role_arn" {
-  description = "IAM role ARN for AWS Load Balancer Controller"
-  value       = aws_iam_role.aws_load_balancer_controller.arn
-}
+# output "aws_load_balancer_controller_role_arn" {
+#   description = "IAM role ARN for AWS Load Balancer Controller"
+#   value       = aws_iam_role.aws_load_balancer_controller.arn
+# }
 
 output "vpc_id" {
   description = "VPC ID"
