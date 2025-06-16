@@ -6,6 +6,7 @@ terraform {
     dynamodb_table = "vpc-terraform-state-locks"    # If using DynamoDB
     # use_lockfile   = true                       # replaces dynamodb_table
     encrypt        = true                       # Use encryption
+    acl            = "bucket-owner-full-control" # Optional, for cross-account access
   }
 }
 

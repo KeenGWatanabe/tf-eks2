@@ -42,6 +42,7 @@ module "eks" {
     Environment = "dev"
     Terraform   = "true"
   }
+
 }
 
 
@@ -67,12 +68,24 @@ resource "helm_release" "alb_controller" {
     value = "aws-load-balancer-controller"
   }
 
+  set {
+    name  = "region"
+    value = "us-east-1" # Your region
+  }
+
+  set {
+    name  = "vpcId"
+    value = aws_vpc.main.id # Ensure this variable is defined in your variables.tf
+  }
   depends_on = [
     module.eks,
-    module.eks.eks_managed_node_groups # Wait for nodes too
+    module.eks.eks_managed_node_groups,
+    
   ]
   
 }
+
+
 
 # Note: Ensure the AWS Load Balancer Controller version matches your EKS version
 # eks 1.29 (ln6) = alb_ctrl 1.7.x (ln54)
