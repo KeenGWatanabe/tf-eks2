@@ -70,6 +70,7 @@ kubectl run --rm -it test-pod --image=amazon/aws-cli --serviceaccount=app-servic
 aws sts get-caller-identity
 
 # eks-oidc runDate 20250616
+Outputs:
 
 cluster_endpoint = "https://8A79DC295AE562C66D58423291EF7A26.gr7.us-east-1.eks.amazonaws.com"
 cluster_name = "taskmgr-eks-cluster"

@@ -7,6 +7,17 @@ module "eks" {
   enable_irsa     = true  # ← This enables automatic IRSA setup
 
 
+  # VPC configuration
+  vpc_id     = aws_vpc.main.id
+  #######new addtions############### ln 35-51
+  subnet_ids = concat(aws_subnet.public_subnet[*].id, aws_subnet.private_subnet[*].id)  # ← ALB needs both
+  
+  # Endpoint access
+  cluster_endpoint_public_access  = true
+  cluster_endpoint_private_access = true
+  
+  
+  # Node groups
   eks_managed_node_groups = {
     taskmgr = {
       min_size       = 1
@@ -16,27 +27,17 @@ module "eks" {
       capacity_type  = "ON_DEMAND"
     }
   }
-
-  # VPC configuration
-  vpc_id     = aws_vpc.main.id
-  # subnet_ids = aws_subnet.public_subnet[*].id  # ← Use public subnets for ALB
-  #######new addtions############### ln 35-51
-  subnet_ids = concat(aws_subnet.public_subnet[*].id, aws_subnet.private_subnet[*].id)  # ← ALB needs both
-  
-  cluster_endpoint_public_access  = true
-  cluster_endpoint_private_access = true
-  
-   # Security group configuration
-  cluster_security_group_additional_rules = {
-    ingress_all = {
-      description = "Cluster API access"
-      protocol    = "tcp"
-      from_port   = 443
-      to_port     = 443
-      type        = "ingress"
-      cidr_blocks = ["0.0.0.0/0"] # Restrict this in production!
-    }
-  }
+  #  # Security group configuration
+  # cluster_security_group_additional_rules = {
+  #   ingress_all = {
+  #     description = "Cluster API access"
+  #     protocol    = "tcp"
+  #     from_port   = 443
+  #     to_port     = 443
+  #     type        = "ingress"
+  #     cidr_blocks = ["0.0.0.0/0"] # Restrict this in production!
+  #   }
+  # }
  #######new addtions###############
   tags = {
     Environment = "dev"
