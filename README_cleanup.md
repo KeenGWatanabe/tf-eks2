@@ -1,15 +1,18 @@
-To clean up AWS resources created by Terraform, follow these steps carefully:
+To clean up AWS-EKS resources created by Terraform, follow these steps carefully:
 
-### 1. **Standard Terraform Destroy**
+### 1. This will delete resources in the correct dependency order.
+For EKS clusters:
 ```bash
-# Preview what will be destroyed
-terraform plan -destroy
+aws eks list-nodegroups --cluster-name taskmgr-eks-cluster
+aws eks delete-nodegroup --cluster-name taskmgr-eks-cluster --nodegroup-name taskmgr-20250615233013820600000001
+```
+wait awhile for deletion to take effect
+```bash
+aws eks delete-cluster --name taskmgr-eks-cluster
 
-# Destroy all resources in the state file
 terraform destroy
 ```
-This will delete resources in the correct dependency order.
-
+-----------------------------------------------------------------------------------
 ### 2. **Targeted Cleanup**
 For partial cleanup:
 ```bash
@@ -31,8 +34,14 @@ aws ec2 terminate-instances --instance-ids i-1234567890
 #### B. Stuck Deletions
 For EKS clusters:
 ```bash
-aws eks delete-nodegroup --cluster-name my-cluster --nodegroup-name my-ng
-aws eks delete-cluster --name my-cluster
+aws eks list-nodegroups --cluster-name taskmgr-eks-cluster
+aws eks delete-nodegroup --cluster-name taskmgr-eks-cluster --nodegroup-name taskmgr-20250615233013820600000001
+```
+wait awhile for deletion to take effect
+```bash
+aws eks delete-cluster --name taskmgr-eks-cluster
+
+terraform destroy -target=aws_eks_node_group.<your_node_group_resource_name>
 ```
 
 ### 4. **Complete Cleanup**
