@@ -78,6 +78,12 @@ resource "helm_release" "alb_controller" {
     name  = "vpcId"
     value = aws_vpc.main.id # Ensure this variable is defined in your variables.tf
   }
+
+  set {
+    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+    value = module.eks.cluster_iam_role_arn # Or your custom IRSA role ARN
+  }
+  
   depends_on = [
     module.eks,
     module.eks.eks_managed_node_groups,
