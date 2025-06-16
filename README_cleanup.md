@@ -4,7 +4,7 @@ To clean up AWS-EKS resources created by Terraform, follow these steps carefully
 For EKS clusters:
 ```bash
 aws eks list-nodegroups --cluster-name taskmgr-eks-cluster
-aws eks delete-nodegroup --cluster-name taskmgr-eks-cluster --nodegroup-name taskmgr-20250615233013820600000001
+aws eks delete-nodegroup --cluster-name taskmgr-eks-cluster --nodegroup-name taskmgr-20250616115459482500000002
 ```
 wait awhile for deletion to take effect
 ```bash
