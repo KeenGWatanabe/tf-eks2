@@ -19,9 +19,6 @@ variable "name_prefix" {
   type        = string
 }
 
-variable "alb_subnet_ids" {
-  type = list(string)
-}
 variable "public_subnet_ids" {
   description = "List of public subnet IDs for the EKS cluster"
   type        = list(string)
