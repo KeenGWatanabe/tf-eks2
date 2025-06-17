@@ -5,7 +5,7 @@
 code source
 https://spacelift.io/blog/terraform-eks
 
-# branch: alb
+# branch: VPC
 build own vpc work with alb
 # backend s3
 https://github.com/KeenGWatanabe/tf-backend
