@@ -1,3 +1,15 @@
+terraform {
+  backend "s3" {
+    bucket         = "custom.tfstate-backend.com"  # Must match the bucket name above
+    key            = "custom-eks/terraform.tfstate"        # State file path
+    region         = "us-east-1"                # Same as provider
+    dynamodb_table = "custom-terraform-state-locks"    # If using DynamoDB
+    # use_lockfile   = true                       # replaces dynamodb_table
+    encrypt        = true                       # Use encryption
+    acl            = "bucket-owner-full-control" # Optional, for cross-account access
+  }
+}
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.31"
