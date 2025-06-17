@@ -1,4 +1,6 @@
-# feature branches for this repo
+# feature branches for this repo tf-eks2
+/VPC > built-in vpc.tf, alb.tf
+/noVPC > basic eks.tf only
 
 code source
 https://spacelift.io/blog/terraform-eks
