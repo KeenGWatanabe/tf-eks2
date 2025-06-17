@@ -1,8 +1,11 @@
+# feature branches for this repo tf-eks2
+/VPC > built-in vpc.tf, alb.tf
+/noVPC > basic eks.tf only, alb via kubectl
 code source
 https://spacelift.io/blog/terraform-eks
 
-# branch: vpc
-use external vpc via tfvars
+# branch: noVPC
+use external vpc via tfvars and alb via kubectl
 # backend s3
 https://github.com/KeenGWatanabe/tf-backend
 

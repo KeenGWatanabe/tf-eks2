@@ -67,35 +67,6 @@ module "eks" {
 }
 
 
-
-resource "helm_release" "alb_controller" {
-  name       = "aws-load-balancer-controller"
-  repository = "https://aws.github.io/eks-charts"
-  chart      = "aws-load-balancer-controller"
-  namespace  = "kube-system"
-  version    = "1.7.1" # Chart version
-
-  set {
-    name  = "clusterName"
-    value = module.eks.cluster_name
-  }
-  set {
-      name  = "serviceAccount.create"
-      value = "false"
-    }
-
-  set {
-    name  = "serviceAccount.name"
-    value = "aws-load-balancer-controller"
-  }
-
-  depends_on = [
-    module.eks,
-    module.eks.eks_managed_node_groups # Wait for nodes too
-  ]
-  
-}
-
 # Note: Ensure the AWS Load Balancer Controller version matches your EKS version
 # eks 1.29 = alb_ctrl 1.7.x
 # eks 1.32 = alb_ctrl 1.8.x
