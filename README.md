@@ -64,6 +64,7 @@ But: The OIDC provider must be registered in IAM before you can use it for IRSA.
 
 
 # Verify IRSA is Working
+IAM Roles Service Accounts (IRSA)
 # Deploy the ServiceAccount
 kubectl apply -f service-account.yaml
 
