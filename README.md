@@ -15,6 +15,7 @@ What this module does
 
 # INPUTS
 vpc.tf ln3,4,6 name `bucket, folder, statefile`
+eks.tf ln34 name `node groups`
 
 # terraform eks
 terraform init
@@ -22,7 +23,7 @@ terraform apply -target=module.eks
 terraform apply
 
 # verification steps
-aws eks describe-cluster --name taskmgr-eks-cluster
+aws eks describe-cluster --name thunder-eks-cluster
 kubectl get nodes
 kubectl get pods -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller
 

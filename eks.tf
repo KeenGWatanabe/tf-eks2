@@ -31,7 +31,7 @@ module "eks" {
   
   # Node groups
   eks_managed_node_groups = {
-    taskmgr = {
+    thunder = {
       min_size       = 1
       max_size       = 3
       desired_size   = 2
