@@ -14,11 +14,6 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "name_prefix" {
-  description = "ecs for grp4"
-  type        = string
-}
-
 variable "public_subnet_ids" {
   description = "List of public subnet IDs for the EKS cluster"
   type        = list(string)
