@@ -14,6 +14,7 @@ What this module does
 
 # INPUTS
 eks.tf ln3,4,6 name `bucket, folder, statefile`
+eks.tf ln33 change node name `taskmgr`
 
 # terraform eks
 terraform init

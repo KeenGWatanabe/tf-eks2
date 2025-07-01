@@ -28,5 +28,5 @@ output "oidc_provider_arn" {
 
 output "vpc_id" {
   description = "VPC ID"
-  value       = aws_vpc.main.id
+  value       = var.vpc_id
 }
