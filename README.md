@@ -18,7 +18,11 @@ eks.tf ln33 change node name `taskmgr`
 
 # terraform eks
 terraform init
+
+terraform apply -target=aws_iam_policy.eks_kms_policy -target=aws_iam_policy.eks_cluster_policy
+
 terraform apply -target=module.eks
+
 terraform apply
 
 # verification steps

@@ -3,11 +3,11 @@ variable "name_prefix" {
   type        = string
 }
 
-variable "MONGODB_URI" {
-  description = "MongoDB Atlas connection URI"
-  type        = string
-  sensitive   = true
-}
+# variable "MONGODB_URI" {
+#   description = "MongoDB Atlas connection URI"
+#   type        = string
+#   sensitive   = true
+# }
 
 variable "vpc_id" {
   description = "The ID of the VPC where resources will be created"

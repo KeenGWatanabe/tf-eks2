@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "secrets.tfstate-backend.com"  # Must match the bucket name above
-    key            = "secrets-eks/terraform.tfstate"        # State file path
+    bucket         = "eks.tfstate-backend.com"  # Must match the bucket name above
+    key            = "vpc-eks/terraform.tfstate"        # State file path
     region         = "us-east-1"                # Same as provider
-    dynamodb_table = "secrets-terraform-state-locks"    # If using DynamoDB
+    dynamodb_table = "eks-terraform-state-locks"    # If using DynamoDB
     # use_lockfile   = true                       # replaces dynamodb_table
     encrypt        = true                       # Use encryption
   }
