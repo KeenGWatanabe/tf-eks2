@@ -7,6 +7,7 @@ data "aws_iam_policy_document" "eks_kms_permissions" {
       "kms:ScheduleKeyDeletion",
       "kms:List*",
       "kms:Get*",
+      "kms:DeleteAlias"
     ]
     resources = ["*"]
   }
